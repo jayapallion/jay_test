@@ -39,12 +39,12 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           
-      - name: run playbook
+      - name: Running csvtoini playbook
         run: |
           ansible-playbook main.yml
           
-      - name: run playbook
+      - name: Running insight playbook
         run: |
-          ansible-playbook -i inventory insight.yml -c paramiko
+          ansible-playbook -i inventory main1.yml -c paramiko
           
       
