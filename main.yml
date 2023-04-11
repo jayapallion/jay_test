@@ -3,8 +3,8 @@
   become: false
   gather_facts: false
   vars:
-    input_file_path: /home/ec2-user/testing.csv
-    output_file_path: /home/ec2-user/inventory
+    input_file_path: ./testing.csv
+    output_file_path: ./inventory
 
   tasks:
   - name: Read csv
