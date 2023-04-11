@@ -1,5 +1,4 @@
-Apps,App_SubCat,Code_Automation,App_Group,Alias,OS,"Host Name
-(post-build)",Cluster,Env,DC,AZ,BackUp,"STATIC POD
+Apps,App_SubCat,Code_Automation,App_Group,Alias,OS,"Host_Name",Cluster,Env,DC,AZ,BackUp,"STATIC POD
 (Y/N)",PCI (Y/N),AIDE or ASK Identifier (Choose from Dropdown),CPU,RAM,"/apps size
 GB","/logs size
 GB","/monitor size
