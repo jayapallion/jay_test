@@ -6,4 +6,4 @@
   tasks:
   - name: debub inventory
     debug:
-      msg: {{ input_cluster }}
+      msg: "{{ input_cluster }}"
