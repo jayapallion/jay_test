@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  become: false
+  gather_facts: false
+  
+  tasks:
+  - name: debub inventory
+    debug:
+      msg: {{ input_cluster }}
