@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  become: false
+  gather_facts: false
+  vars:
+    input_file_path: /home/ec2-user/testing.csv
+    output_file_path: /home/ec2-user/inventory
+
+  tasks:
+  - name: Read csv
+    community.general.read_csv:
+      path: "{{ input_file_path }}"
+      delimiter: ','
+    register: all
+
+  # - name: ansible debudg
+  #   ansible.builtin.debug:
+  #     msg: {{ all.list[loop.index0] }} 
+
+  - name: Template file
+    ansible.builtin.template:
+      src: inventory.j2
+      dest: "{{ output_file_path }}"
