@@ -3,7 +3,7 @@
   become: false
   gather_facts: false
   vars:
-    input_file_path: ./testing.csv
+    input_file_path: ./test_agha.csv
     output_file_path: ./inventory
 
   tasks:
