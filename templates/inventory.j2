@@ -1,0 +1,32 @@
+[all]
+{% for i in all.list %}
+{{all.list[loop.index0].Host_Name + ".uhc.com"}} input_cluster={{all.list[loop.index0].Cluster}} input_platform_environment={{all.list[loop.index0].Env}} input_datacenter={{all.list[loop.index0].DC}} input_genesys_application={{all.list[loop.index0].Apps}} input_alias={{all.list[loop.index0].Alias}}
+{% endfor %}
+
+[all:vars]
+input_aap_organization=OmniChannel
+
+[CL1]
+{% for i in all.list %}
+{% if all.list[loop.index0].Cluster == 'CL1' %}
+{{all.list[loop.index0].Host_Name + ".uhc.com"}}
+{% endif %}
+{% if all.list[loop.index0].Cluster == 'CL3' %}
+{{all.list[loop.index0].Host_Name + ".uhc.com"}}
+{% endif %}
+{% endfor %}
+
+[CL1:vars]
+ansible_user=omnians1
+become_user=omnians1
+
+[CL2]
+{% for i in all.list %}
+{% if all.list[loop.index0].Cluster == 'CL2' %}
+{{all.list[loop.index0].Host_Name + ".uhc.com"}}
+{% endif %}
+{% endfor %}
+
+[CL2:vars]
+ansible_user=omnians2
+become_user=omnians2
