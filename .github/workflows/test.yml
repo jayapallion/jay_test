@@ -47,6 +47,4 @@ jobs:
         run: |
           scp -ri ${{ secrets.SSH_KEY }} . ${{ secrets.SSH_USER }}@${{ secrets.SSH_IP }}:/home/ec2-user/
           ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_IP }}
-          echo "hi jayapal" >> testing
-          
       
