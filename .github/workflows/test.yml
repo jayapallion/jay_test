@@ -43,15 +43,25 @@ jobs:
         run: |
           ansible-playbook main.yml
           
-      - name: Running insight playbook
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          SSH_USER: ec2-user
-          SSH_IP: 13.233.83.195
-        run: |
-          'echo "hi" > ssh_key'
-          scp -ri ssh_key . $SSH_USER@$SSH_IP:/home/ec2-user/
-          ssh -i ssh_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_IP }}
+#       - name: Running insight playbook
+#         env:
+#           SSH_KEY: ${{ secrets.SSH_KEY }}
+#           SSH_USER: ec2-user
+#           SSH_IP: 13.233.83.195
+#         run: |
+#           'echo "hi" > ssh_key'
+#           scp -ri ssh_key . $SSH_USER@$SSH_IP:/home/ec2-user/
+#           ssh -i ssh_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_IP }}
+
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@master
+        with:
+          host: 13.233.83.195
+          username: ec2-user
+          port: 22
+          key: ${{ secrets.SSH_KEY }}
+          source: "."
+          target: "/home/ec2-user/git/"
           
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
