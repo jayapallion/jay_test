@@ -49,7 +49,7 @@ jobs:
           SSH_USER: ec2-user
           SSH_IP: 13.233.83.195
         run: |
-          'echo "$SSH_KEY" > ssh_key'
+          'echo "hi" > ssh_key'
           scp -ri ssh_key . $SSH_USER@$SSH_IP:/home/ec2-user/
           ssh -i ssh_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_IP }}
           
