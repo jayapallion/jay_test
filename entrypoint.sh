@@ -8,4 +8,4 @@ chmod 600 ssh-key
 
 ssh-keyscan -t rsa 3.110.176.123 >> ~/.ssh/known_hosts
 chmod 600 ~/.ssh/known_hosts
-ssh -i ssh-key -o StrictHostKeyChecking=no ec2-user@3.110.176.123 "mkdir working"
+ssh -i id_rsa -o StrictHostKeyChecking=no $2@$3 "mkdir working"
