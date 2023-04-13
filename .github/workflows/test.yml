@@ -75,5 +75,5 @@ jobs:
         with:
           ssh-key: ssh-key
           user: ec2-user
-          host: 13.233.83.195
+          host: 3.110.176.123
       
