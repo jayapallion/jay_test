@@ -64,11 +64,16 @@ jobs:
       #     key: ${{ secrets.SSH_KEY }}
       #     source: "."
       #     target: "/home/ec2-user/git/"
+      
+      - name: write inventory to file
+        env:
+          SSH-KEY: ${{ secrets.SSH_KEY }}
+        run: 'echo "$SSH-KEY" > ssh-key'
           
       - name: executing remote ssh commands using password
         uses: ./
         with:
-          ssh-key: ${{ secrets.SSH_KEY }}
+          ssh-key: ssh-key
           user: ec2-user
           host: 13.233.83.195
       
