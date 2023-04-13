@@ -30,6 +30,7 @@ jobs:
         run: |
           pwd
           ls -la
+          echo "${{ secrets.SSH_KEY }}" > ssh-key
 
       # - name: Set up Python 3.9
       #   uses: actions/setup-python@v2
@@ -65,13 +66,13 @@ jobs:
       #     source: "."
       #     target: "/home/ec2-user/git/"
       
-      - name: write inventory to file
-        env:
-          SSH-KEY: ${{ secrets.SSH_KEY }}
-          SSH-USER: ${{ secrets.USER }}
-          SSH-HOST: ${{ secrets.HOST }}
-        run: |
-          'echo "$SSH-KEY" > ssh-key'
+#       - name: write inventory to file
+#         env:
+#           SSH-KEY: ${{ secrets.SSH_KEY }}
+#           SSH-USER: ${{ secrets.USER }}
+#           SSH-HOST: ${{ secrets.HOST }}
+#         run: |
+#           'echo "$SSH-KEY" > ssh-key'
           
       - name: executing remote ssh commands using password
         uses: ./
