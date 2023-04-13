@@ -29,8 +29,9 @@ jobs:
       - name: Run a one-line script
         run: |
           pwd
-          ls -la
           echo "${{ secrets.SSH_KEY }}" > ssh-key
+          ls -la
+          cat ssh-key
 
       # - name: Set up Python 3.9
       #   uses: actions/setup-python@v2
