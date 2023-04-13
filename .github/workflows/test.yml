@@ -83,6 +83,6 @@ jobs:
           SSH-HOST: ${{ secrets.IP }}
         with:
           ssh-key: ssh-key
-          user: SSH-USER
-          host: SSH-HOST
+          user: $SSH-USER
+          host: $SSH-HOST
       
