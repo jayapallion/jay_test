@@ -2,5 +2,5 @@
 echo "$1"
 echo "$2"
 echo "$3"
-cat "$1"
-ssh -i $1 $2@$3
+cat "ssh-key"
+ssh -i ssh-key ec2-user@13.233.83.195
