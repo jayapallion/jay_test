@@ -1,0 +1,19 @@
+name: 'SSH'
+description: 'SSH into instance'
+inputs:
+  ssh-key:
+    description: 'ssh-key to use'
+    required: true
+  user:
+    description: 'user name'
+    required: true
+  host:
+    description: 'host name'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.ssh-key }}
+    - ${{ inputs.user }}
+    - ${{ inputs.host }}
