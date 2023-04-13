@@ -68,12 +68,19 @@ jobs:
       - name: write inventory to file
         env:
           SSH-KEY: ${{ secrets.SSH_KEY }}
-        run: 'echo "$SSH-KEY" > ssh-key'
+          SSH-USER: ${{ secrets.USER }}
+          SSH-HOST: ${{ secrets.HOST }}
+        run: |
+          'echo "$SSH-KEY" > ssh-key'
           
       - name: executing remote ssh commands using password
         uses: ./
+        env:
+          SSH-KEY: ${{ secrets.SSH_KEY }}
+          SSH-USER: ${{ secrets.USER }}
+          SSH-HOST: ${{ secrets.IP }}
         with:
           ssh-key: ssh-key
-          user: ec2-user
-          host: 3.110.176.123
+          user: SSH-USER
+          host: SSH-HOST
       
