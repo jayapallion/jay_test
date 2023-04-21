@@ -5,5 +5,3 @@ checking pr request
 
 approved
 
-chrg
-khjkl
