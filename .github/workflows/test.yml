@@ -73,14 +73,14 @@ jobs:
 #         run: |
 #           'echo "$SSH-KEY" > ssh-key'
           
-      - name: executing remote ssh commands using password
-        uses: ./
-        env:
-          SSH-KEY: ${{ secrets.SSH_KEY }}
-          SSH-USER: ${{ secrets.USER }}
-          SSH-HOST: ${{ secrets.IP }}
-        with:
-          ssh-key: ssh-key
-          user: $SSH-USER
-          host: $SSH-HOST
+#       - name: executing remote ssh commands using password
+#         uses: ./
+#         env:
+#           SSH-KEY: ${{ secrets.SSH_KEY }}
+#           SSH-USER: ${{ secrets.USER }}
+#           SSH-HOST: ${{ secrets.IP }}
+#         with:
+#           ssh-key: ssh-key
+#           user: $SSH-USER
+#           host: $SSH-HOST
       
