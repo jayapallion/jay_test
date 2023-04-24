@@ -15,6 +15,6 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Run only on approved pull request and file change
-      if: ${{ github.event.review.state == 'approved' && contains(github.event.pull_request.changed_files, 'example_file.txt') }}
+      if: ${{ github.event.review.state == 'approved' && contains(github.event.pull_request.changed_files, 'dina.txt') }}
       run: |
         # Your commands to run when the conditions are met
