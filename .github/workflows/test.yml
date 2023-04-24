@@ -1,22 +1,26 @@
-name: My Workflow
+name: Pull Request Approved and File Changed
+
 on:
   pull_request_review:
     types: [submitted]
-    branches:
-      - main
-    conditions: ${{ github.event.review.state == 'approved' }}
-  push:
-    branches:
-      - main
-    paths:
-      - 'dina.txt' 
+  pull_request:
+    types: [synchronize]
+
 jobs:
-  my_job:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Run my task
-      run: |
-        echo "My task runs because a commit was made to a file in the folder and the pull request was approved."
-        # Run your task here
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Check if file is changed
+        id: file_changed
+        run: echo ::set-output name=changed::$(git diff --name-only HEAD^ HEAD | grep 'dina.txt' || true)
+
+      - name: Build and Test
+        if: github.event.review.state == 'approved' && steps.file_changed.outputs.changed
+        run: |
+          echo "hi jayapal"
