@@ -1,38 +1,43 @@
+name: Check File Change
+
 on:
-  pull_request:
-    types: [opened, edited, closed]
+  pull_request_review:
+    types: [submitted]
+    # Only trigger on approved reviews
+    # Replace "APPROVED" with the name of the label or status check that indicates an approved review
+    branches:
+      - main
+    # Only trigger if the review is approved
+    # Replace "APPROVED" with the name of the label or status check that indicates an approved review
+    # Replace "APPROVE" with the name of the review state that indicates approval (e.g. "APPROVED", "APPROVE", "LGTM")
+    # You can also add additional conditions (e.g. reviewer or team approval)
+    conditions: ${{ github.event.review.state == 'APPROVE' && contains(github.event.pull_request.labels.*.name, 'APPROVED') }}
 
 jobs:
   check-file-change:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
+          # Check out the pull request branch instead of the base branch
           ref: ${{ github.event.pull_request.head.ref }}
       - name: Check if file has been changed
         id: file_changed
         run: |
+          # Replace "file.txt" with the name of the file you want to check
           if git diff --quiet HEAD^ HEAD -- jay.txt; then
             echo "::set-output name=file_changed::false"
           else
             echo "::set-output name=file_changed::true"
           fi
-      - name: Check if pull request is merged
-        id: is_merged
+      - name: Continue actions if file has been changed
+        if: steps.file_changed.outputs.file_changed == 'true'
         run: |
-          if [ "${{ github.event.pull_request.merged }}" = "true" ]; then
-            echo "::set-output name=is_merged::true"
-          else
-            echo "::set-output name=is_merged::false"
-          fi
-      - name: Continue actions if file has been changed and pull request is merged
-        if: steps.file_changed.outputs.file_changed == 'true' && steps.is_merged.outputs.is_merged == 'true'
+          echo "File has been changed in the pull request."
+          # Add your Python code here
+      - name: Abort if file has not been changed
+        if: steps.file_changed.outputs.file_changed == 'false'
         run: |
-          echo "File has been changed in the pull request and the pull request has been merged."
-          # Add your actions here
-      - name: Abort if file has not been changed or pull request has not been merged
-        if: steps.file_changed.outputs.file_changed == 'false' || steps.is_merged.outputs.is_merged == 'false'
-        run: |
-          echo "File has not been changed in the pull request or the pull request has not been merged."
+          echo "File has not been changed in the pull request."
           exit 1
