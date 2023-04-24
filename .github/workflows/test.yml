@@ -1,11 +1,14 @@
 name: Check File Change
 
 on:
-  pull_request_review:
-    types: [approved]
+  pull_request:
+    types: [review_requested, review_requested_removed, reopened, synchronize, closed]
     branches:
       - main
-    # Only trigger if the review is approved
+  pull_request_review:
+    types: [submitted]
+    branches:
+      - main
 
 jobs:
   check-file-change:
@@ -14,24 +17,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          # Check out the pull request branch instead of the base branch
           ref: ${{ github.event.pull_request.head.ref }}
       - name: Check if file has been changed
         id: file_changed
         run: |
-          # Replace "jay.txt" with the name of the file you want to check
           if git diff --quiet HEAD^ HEAD -- jay.txt; then
             echo "::set-output name=file_changed::false"
           else
             echo "::set-output name=file_changed::true"
           fi
       - name: Continue actions if file has been changed
-        if: steps.file_changed.outputs.file_changed == 'true'
+        if: steps.file_changed.outputs.file_changed == 'true' && github.event.review.state == 'approved'
         run: |
-          echo "File has been changed in the pull request."
+          echo "File has been changed in the pull request and review has been approved."
           # Add your Python code here
-      - name: Abort if file has not been changed
-        if: steps.file_changed.outputs.file_changed == 'false'
+      - name: Abort if file has not been changed or review is not approved
+        if: steps.file_changed.outputs.file_changed == 'false' || github.event.review.state != 'approved'
         run: |
-          echo "File has not been changed in the pull request."
+          echo "File has not been changed in the pull request or review has not been approved."
           exit 1
