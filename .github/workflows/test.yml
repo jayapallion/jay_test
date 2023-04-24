@@ -1,33 +1,24 @@
-name: CI
+name: PR Approval Workflow
 
 on:
   pull_request:
-    branches:
-      - main
+    types: [opened, edited]
 
 jobs:
-  build:
+  check-file-changes:
     runs-on: ubuntu-latest
-
+    if: github.event_name == 'pull_request' && github.event.pull_request.changed_files > 0 && contains(github.event.pull_request.changed_files, 'jay.txt')
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Check for changes in file
-      id: file_changes
-      run: |
-        if git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q jay.txt; then
-          echo "::set-output name=changed::true"
-        else
-          echo "::set-output name=changed::false"
-        fi
-      shell: bash
-
-    - name: Continue or Abort
-      if: steps.file_changes.outputs.changed == 'true'
-      run: echo "There is a change. Continuing next tasks."
-    
-    - name: Abort workflow
-      if: steps.file_changes.outputs.changed != 'true'
-      run: echo "There is no change. Aborting workflow."
-
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Continue with next tasks
+        run: echo "File has been changed, continuing with next tasks."
+  
+  abort-workflow:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && (github.event.pull_request.changed_files == 0 || !contains(github.event.pull_request.changed_files, 'jay.txt'))
+    steps:
+      - name: Abort workflow
+        run: exit 1
