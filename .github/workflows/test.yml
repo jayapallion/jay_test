@@ -1,16 +1,22 @@
 name: My Workflow
-
 on:
   pull_request_review:
     types: [submitted]
+    branches:
+      - main
+    conditions: ${{ github.event.review.state == 'approved' }}
+  push:
+    branches:
+      - main
     paths:
-      - jayapal.xlsv
-
+      - 'dina.txt' 
 jobs:
-  my-job:
+  my_job:
     runs-on: ubuntu-latest
-    if: github.event.review.state == 'approved'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      # Additional steps for the job
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Run my task
+      run: |
+        echo "My task runs because a commit was made to a file in the folder and the pull request was approved."
+        # Run your task here
