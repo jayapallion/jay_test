@@ -3,15 +3,11 @@ name: Check File Change
 on:
   pull_request_review:
     types: [submitted]
-    # Only trigger on approved reviews
-    # Replace "APPROVED" with the name of the label or status check that indicates an approved review
     branches:
       - main
     # Only trigger if the review is approved
-    # Replace "APPROVED" with the name of the label or status check that indicates an approved review
-    # Replace "APPROVE" with the name of the review state that indicates approval (e.g. "APPROVED", "APPROVE", "LGTM")
-    # You can also add additional conditions (e.g. reviewer or team approval)
     conditions: ${{ github.event.review.state == 'approved' }}
+
 jobs:
   check-file-change:
     runs-on: ubuntu-latest
@@ -24,7 +20,7 @@ jobs:
       - name: Check if file has been changed
         id: file_changed
         run: |
-          # Replace "file.txt" with the name of the file you want to check
+          # Replace "jay.txt" with the name of the file you want to check
           if git diff --quiet HEAD^ HEAD -- jay.txt; then
             echo "::set-output name=file_changed::false"
           else
