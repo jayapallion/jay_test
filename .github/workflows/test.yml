@@ -12,12 +12,13 @@ jobs:
     if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'approved' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
       - name: Check if file has been changed
         run: |
-          if git diff --quiet "$(git merge-base HEAD^ HEAD)" HEAD jay.txt; then
+          if git diff --quiet "$(git merge-base HEAD^ HEAD)" HEAD <file_name>; then
             echo "File has not been changed in the pull request."
           else
             echo "File has been changed in the pull request."
+          fi
