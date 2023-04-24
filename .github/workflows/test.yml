@@ -19,5 +19,6 @@ jobs:
             exit 1
           else
             echo "File has been changed in the pull request. Continuing with next steps."
+          fi
         # Add more steps here to continue with the workflow if the file has been changed.
 
