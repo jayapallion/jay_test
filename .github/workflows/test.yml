@@ -3,15 +3,11 @@ name: example-action
 on:
   pull_request_review:
     types: [approved]
-  push:
-    paths:
-      - 'jay.xlsv'
-    branches:
-      - main
 
 jobs:
   example-job:
     runs-on: ubuntu-latest
+    if: "contains(github.event.pull_request.changed_files, 'jay.xlsv')"
     steps:
       - name: example-step
         run: echo "Hello, world!"
