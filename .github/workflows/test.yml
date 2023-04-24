@@ -1,4 +1,4 @@
-name: Pull Request Approved and File Changed
+name: Run on Pull Request Approve and File Change
 
 on:
   pull_request_review:
@@ -11,16 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Check if file is changed
-        id: file_changed
-        run: echo ::set-output name=changed::$(git diff --name-only HEAD^ HEAD | grep 'dina.txt' || true)
-
-      - name: Build and Test
-        if: github.event.review.state == 'approved' && steps.file_changed.outputs.changed
-        run: |
-          echo "hi jayapal"
+    - name: Run only on approved pull request and file change
+      if: ${{ github.event.review.state == 'approved' && contains(github.event.pull_request.changed_files, 'example_file.txt') }}
+      run: |
+        # Your commands to run when the conditions are met
