@@ -1,13 +1,15 @@
-name: Pull Request Review
+name: example-action
 
 on:
-  pull_request:
+  pull_request_review:
+    types: [approved]
+  push:
     paths:
-    - 'jay.txt'
+      - 'jay.txt'
 
 jobs:
-  check_changes:
+  example-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: example-step
+        run: echo "Hello, world!"
