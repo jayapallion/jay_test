@@ -1,21 +1,26 @@
-name: My Workflow
+name: Check PR File Changes
+
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, synchronize]
 
 jobs:
-  my-job:
+  check_file_changes:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Check for file changes
         run: |
-          if [ -z "$(git diff --name-only HEAD^ HEAD -- jay.txt)" ]; then
-            echo "No changes found in file. Aborting."
-            exit 1
+          if git diff --name-only HEAD^ HEAD | grep "jay.txt"; then
+            echo "There are changes in the file. Continuing with next steps..."
           else
-            echo "Changes found in file. Continuing."
+            echo "No changes found in the file. Aborting workflow."
+            exit 1
           fi
-      - name: Run your action
-        run: echo "working"
+      
+      # Continue with your next steps here, e.g.
+      - name: Build and test code
+        run: |
+          # your build and test commands here
