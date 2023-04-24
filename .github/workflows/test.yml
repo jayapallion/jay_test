@@ -5,7 +5,7 @@ on:
     types: [approved]
   push:
     paths:
-      - 'jay.txt'
+      - 'jay.xlsv'
 
 jobs:
   example-job:
