@@ -6,6 +6,8 @@ on:
   push:
     paths:
       - 'jay.xlsv'
+    branches:
+      - main
 
 jobs:
   example-job:
