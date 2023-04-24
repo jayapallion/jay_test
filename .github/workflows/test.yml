@@ -2,7 +2,7 @@ name: PR Approved Workflow
 
 on:
   pull_request_target:
-    types: [closed]
+    types: [approved]
     branches:
       - main
     paths:
