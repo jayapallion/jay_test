@@ -1,10 +1,9 @@
 name: Pull Request Review
 
 on:
-  pull_request_review:
-    types: [submitted]
-    branches:
-      - main
+  pull_request:
+    paths:
+    - 'jay.txt'
 
 jobs:
   check_changes:
@@ -12,6 +11,3 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Check file changes
-        if: ${{ github.event.pull_request.head.ref == 'main' && github.event.pull_request.base.ref == 'develop' && contains(github.event.pull_request.changed_files, 'jay.txt') }}
-        run: echo "File 'jay.txt' was changed in the pull request!"
