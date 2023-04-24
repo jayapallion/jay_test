@@ -1,38 +1,24 @@
 name: Check File Change
 
 on:
-  pull_request:
-    types: [review_requested, review_requested_removed, reopened, synchronize, closed]
-    branches:
-      - main
   pull_request_review:
     types: [submitted]
-    branches:
-      - main
+  pull_request:
+    types: [opened]
 
 jobs:
   check-file-change:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'approved' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
       - name: Check if file has been changed
-        id: file_changed
         run: |
-          if git diff --quiet HEAD^ HEAD -- jay.txt; then
-            echo "::set-output name=file_changed::false"
+          if git diff --quiet HEAD~ HEAD jay.txt; then
+            echo "File has not been changed in the pull request."
           else
-            echo "::set-output name=file_changed::true"
-      - name: Continue actions if file has been changed
-        if: steps.file_changed.outputs.file_changed == 'true' && github.event.review.state == 'approved'
-        run: |
-          echo "File has been changed in the pull request and review has been approved."
-          # Add your Python code here
-      - name: Abort if file has not been changed or review is not approved
-        if: steps.file_changed.outputs.file_changed == 'false' || github.event.review.state != 'approved'
-        run: |
-          echo "File has not been changed in the pull request or review has not been approved."
-          exit 1
-  fi
+            echo "File has been changed in the pull request."
+          fi
