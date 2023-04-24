@@ -2,7 +2,7 @@ name: Pull Request Approve and File Change
 
 on:
   pull_request:
-    types: [review_requested, review_requested_removed, approved, edited, reopened]
+    types: [approved]
     paths:
       - 'dina.txt'
 
