@@ -1,24 +1,36 @@
-name: Check File Change
-
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened, edited, closed]
 
 jobs:
   check-file-change:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
       - name: Check if file has been changed
+        id: file_changed
         run: |
-          if git diff --quiet HEAD~ HEAD jay.txt; then
-            echo "File has not been changed in the pull request. Aborting workflow."
-            exit 1
+          if git diff --quiet HEAD^ HEAD -- jay.txt; then
+            echo "::set-output name=file_changed::false"
           else
-            echo "File has been changed in the pull request. Continuing with next steps."
-          fi
-        # Add more steps here to continue with the workflow if the file has been changed.
-
+            echo "::set-output name=file_changed::true"
+      - name: Check if pull request is merged
+        id: is_merged
+        run: |
+          if [ "${{ github.event.pull_request.merged }}" = "true" ]; then
+            echo "::set-output name=is_merged::true"
+          else
+            echo "::set-output name=is_merged::false"
+      - name: Continue actions if file has been changed and pull request is merged
+        if: steps.file_changed.outputs.file_changed == 'true' && steps.is_merged.outputs.is_merged == 'true'
+        run: |
+          echo "File has been changed in the pull request and the pull request has been merged."
+          # Add your actions here
+      - name: Abort if file has not been changed or pull request has not been merged
+        if: steps.file_changed.outputs.file_changed == 'false' || steps.is_merged.outputs.is_merged == 'false'
+        run: |
+          echo "File has not been changed in the pull request or the pull request has not been merged."
+          exit 1
