@@ -1,21 +1,25 @@
-name: Check for PR changes
+name: PR Approval with File Changes Check
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  check-changes:
+  pr-approval:
     runs-on: ubuntu-latest
     steps:
-      - name: Check for changes
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Check for file changes
         run: |
-          git fetch
-          if git diff --quiet "$GITHUB_BASE_REF".."$GITHUB_HEAD_REF" | grep jay.txt; then
-            echo "No changes in PR. Aborting workflow."
-            exit 1
+          if git diff --quiet ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- path/to/file
+          then
+            echo "change in the file, continuing workflow."
           else
-            echo "Changes found in PR. Continuing workflow."
+            echo "No Changes found in file. aborting workflow."
+            exit 1
           fi
       - name: Next steps
         run: |
