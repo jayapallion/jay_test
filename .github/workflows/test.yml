@@ -1,13 +1,14 @@
-name: example-action
-
+name: Run action on approved pull request to main branch with one file change
 on:
-  pull_request_review:
-    types: [approved]
+  pull_request_target:
+    types: [review_requested, review_requested_removed, labeled, unlabeled, opened, reopened, synchronize, closed]
 
 jobs:
-  example-job:
+  my-job:
     runs-on: ubuntu-latest
-    if: "contains(github.event.pull_request.changed_files, 'jay.xlsv')"
+    if: github.event_name == 'pull_request_target' && github.event.pull_request.base.ref == 'main' && github.event.pull_request.reviews[0].state == 'APPROVED' && contains(github.event.pull_request.changed_files, 'jay.xlsv')
     steps:
-      - name: example-step
-        run: echo "Hello, world!"
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run your action
+        run: your-action-command-here
