@@ -13,9 +13,9 @@
       delimiter: ','
     register: all
 
-  # - name: ansible debudg
-  #   ansible.builtin.debug:
-  #     msg: {{ all.list[loop.index0] }} 
+  - name: ansible debudg
+    ansible.builtin.debug:
+      msg: {{ all.list[loop.index0] }} 
 
   - name: Template file
     ansible.builtin.template:
