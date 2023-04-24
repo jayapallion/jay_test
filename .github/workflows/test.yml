@@ -1,16 +1,18 @@
-name: Run action on approved pull request to main branch with jay.xlsx file change
+name: Run action on approved pull request to main branch with one file change
 on:
   pull_request:
     branches:
       - main
-    types: [opened, reopened, synchronize, closed]
+    types: [closed]
 
 jobs:
   my-job:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && github.event.pull_request.changed_files == 1 && contains(github.event.pull_request.changed_files, 'jay.xlsx')
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.changed_files, 'jay.xlsv')
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Run your action
         run: your-action-command-here
