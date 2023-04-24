@@ -27,7 +27,14 @@ jobs:
         run: |
           if git diff --quiet "$(git merge-base HEAD^ HEAD)" HEAD jay.txt; then
             echo "File has not been changed in the pull request."
+            exit 1
           else
             echo "File has been changed in the pull request."
             # Execute your code here
           fi
+      - name: See pipeline runs are breaks
+        run: |
+          echo "yes working"
+      - name: See this thing work or not
+        run: |
+          ls -la
