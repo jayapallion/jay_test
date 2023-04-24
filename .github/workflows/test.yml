@@ -1,15 +1,21 @@
-name: Pull Request Approve and File Change
+name: Pull Request Approve and Change
 
 on:
+  pull_request_review:
+    types: [submitted]
+    branches:
+      - main
   pull_request:
-    types: [approved]
-    paths:
-      - 'dina.txt'
+    types: [synchronize]
+    branches:
+      - main
 
 jobs:
-  build:
+  check_file_changes:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run checks
+        if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'approved' || github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'jay.txt') }}
+        run: echo "Checks passed!"
