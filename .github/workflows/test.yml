@@ -26,8 +26,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
           import os
-          import matplotlib
-          matplotlib.use('agg')
           from github import Github
           # Get the repository and pull request objects
           g = Github(os.environ['GITHUB_TOKEN'])
@@ -53,10 +51,9 @@ jobs:
                   if file_changed:
                       break
               if file_changed:
-                # Execute your code here
-                convert -density 300 -define pdf:use-cropbox=true jat.pdf jat.png
-                echo 'The file has been changed.'
+                  # Execute your code here
+                  echo 'The file has been changed.'
               else:
-                echo 'The file has not been changed.'
+                  echo 'The file has not been changed.'
           else:
               echo 'The pull request has not been approved yet.' 
