@@ -10,3 +10,8 @@ lkl
 
 lk
 lkjl
+d
+f
+
+gd
+g
