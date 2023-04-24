@@ -1,18 +1,27 @@
-name: Run action on approved pull request to main branch with one file change
+To check if there is a change in a file in a pull request and continue with the next tasks in the workflow if there is a change, or abort if there is no change, you can use the if statement and the changes context.
+
+Here is an example workflow that demonstrates this:
+
+yaml
+Copy code
+name: My Workflow
 on:
   pull_request:
-    branches:
-      - main
-    types: [closed]
+    types: [opened, reopened, synchronize]
 
 jobs:
   my-job:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.changed_files, 'jay.xlsv')
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Check for file changes
+        run: |
+          if [ -z "$(git diff --name-only HEAD^ HEAD -- jay.txt)" ]; then
+            echo "No changes found in file. Aborting."
+            exit 1
+          else
+            echo "Changes found in file. Continuing."
+          fi
       - name: Run your action
-        run: your-action-command-here
+        run: echo "working"
