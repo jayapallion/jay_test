@@ -4,7 +4,6 @@ on:
     types: [submitted]
     branches:
       - main
-    conditions: ${{ github.event.review.state == 'approved' }}
   push:
     branches:
       - main
@@ -13,6 +12,7 @@ on:
 jobs:
   my_job:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
