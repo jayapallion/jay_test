@@ -11,7 +11,7 @@ jobs:
       - name: Check for changes
         run: |
           git fetch
-          if git diff --quiet "$GITHUB_BASE_REF".."$GITHUB_HEAD_REF"; then
+          if git diff --quiet "$GITHUB_BASE_REF".."$GITHUB_HEAD_REF" | grep jay.txt; then
             echo "No changes in PR. Aborting workflow."
             exit 1
           else
