@@ -1,16 +1,16 @@
-name: example-action
+name: My Workflow
 
 on:
   pull_request_review:
-    types: [submitted, edited]
-  push:
+    types: [submitted]
     paths:
-      - 'jay.xlsv'
+      - jayapal.xlsv
 
 jobs:
-  example-job:
+  my-job:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'approved' }}
+    if: github.event.review.state == 'approved'
     steps:
-      - name: example-step
-        run: echo "Hello, world!"
+      - name: Checkout code
+        uses: actions/checkout@v2
+      # Additional steps for the job
