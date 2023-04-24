@@ -1,14 +1,9 @@
 name: Pull Request Approve and Change
 
 on:
-  pull_request_review:
-    types: [submitted]
-    branches:
-      - main
-  pull_request:
-    types: [synchronize]
-    branches:
-      - main
+ pull_request:
+    paths: 
+    - 'jay.txt'
 
 jobs:
   check_file_changes:
@@ -16,6 +11,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Run checks
-        if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'approved' || github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'jay.txt') }}
-        run: echo "Checks passed!"
+#       - name: Run checks
+#         if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'approved' || github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, 'jay.txt') }}
+#         run: echo "Checks passed!"
