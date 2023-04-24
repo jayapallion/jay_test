@@ -53,9 +53,10 @@ jobs:
                   if file_changed:
                       break
               if file_changed:
-                  # Execute your code here
-                  print('The file has been changed.')
+                # Execute your code here
+                convert -density 300 -define pdf:use-cropbox=true jat.pdf jat.png
+                echo 'The file has been changed.'
               else:
-                  print('The file has not been changed.')
+                echo 'The file has not been changed.'
           else:
-              print('The pull request has not been approved yet.')
+              echo 'The pull request has not been approved yet.' 
