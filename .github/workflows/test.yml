@@ -2,7 +2,7 @@ name: Check File Change
 
 on:
   pull_request_review:
-    types: [APPROVED]
+    types: [submitted]
     # Only trigger on approved reviews
     # Replace "APPROVED" with the name of the label or status check that indicates an approved review
     branches:
@@ -11,8 +11,7 @@ on:
     # Replace "APPROVED" with the name of the label or status check that indicates an approved review
     # Replace "APPROVE" with the name of the review state that indicates approval (e.g. "APPROVED", "APPROVE", "LGTM")
     # You can also add additional conditions (e.g. reviewer or team approval)
-#     conditions: ${{ github.event.review.state == 'APPROVE' && contains(github.event.pull_request.labels.*.name, 'APPROVED') }}
-
+    conditions: ${{ github.event.review.state == 'approved' }}
 jobs:
   check-file-change:
     runs-on: ubuntu-latest
