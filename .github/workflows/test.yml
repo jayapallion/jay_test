@@ -11,7 +11,7 @@ on:
     # Replace "APPROVED" with the name of the label or status check that indicates an approved review
     # Replace "APPROVE" with the name of the review state that indicates approval (e.g. "APPROVED", "APPROVE", "LGTM")
     # You can also add additional conditions (e.g. reviewer or team approval)
-    conditions: ${{ github.event.review.state == 'APPROVE' && contains(github.event.pull_request.labels.*.name, 'APPROVED') }}
+#     conditions: ${{ github.event.review.state == 'APPROVE' && contains(github.event.pull_request.labels.*.name, 'APPROVED') }}
 
 jobs:
   check-file-change:
