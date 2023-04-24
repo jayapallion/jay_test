@@ -14,7 +14,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Check for file changes
         run: |
-          if git diff --quiet ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- path/to/file
+          if git diff --quiet ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- jay.txt
           then
             echo "change in the file, continuing workflow."
           else
