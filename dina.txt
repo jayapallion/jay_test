@@ -1,6 +1,2 @@
 testing
-dina
 
-it's working.
-
-tsting
