@@ -12,33 +12,27 @@ jobs:
     if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'approved' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
       - name: Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
-          python-version: '3.10'
+          python-version: '3.9'
       - name: Install PyGithub
         run: pip install PyGithub
-        
-      - name: Set DISPLAY variable
-        run: |
-          echo "export DISPLAY=:99" >> $GITHUB_ENV
-      
-
       - name: Check if file has been changed
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
           import os
+          import matplotlib
+          matplotlib.use('agg')
           from github import Github
-
           # Get the repository and pull request objects
           g = Github(os.environ['GITHUB_TOKEN'])
           repo = g.get_repo('${{ github.repository }}')
           pr = repo.get_pull(${{ github.event.pull_request.number }})
-
           # Check if the pull request has been approved
           reviews = pr.get_reviews()
           approved = False
@@ -46,7 +40,6 @@ jobs:
               if review.state == 'APPROVED':
                   approved = True
                   break
-
           # If the pull request has been approved and the file has been changed, execute your code
           if approved:
               file_changed = False
@@ -54,17 +47,15 @@ jobs:
               for commit in commits:
                   files = commit.files
                   for file in files:
-                      if file.filename == 'jat.txt':
+                      if file.filename == 'jay.txt':
                           file_changed = True
                           break
                   if file_changed:
                       break
-
               if file_changed:
                   # Execute your code here
-                  echo 'The file has been changed.'
+                  print('The file has been changed.')
               else:
-                  echo 'The file has not been changed.'
+                  print('The file has not been changed.')
           else:
-              echo 'The pull request has not been approved yet.'
-      
+              print('The pull request has not been approved yet.')
