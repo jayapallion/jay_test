@@ -1,24 +1,23 @@
-name: PR Approval Workflow
+name: Check File Change
 
 on:
   pull_request:
     types: [opened, edited]
 
 jobs:
-  check-file-changes:
+  check-file-change:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.pull_request.changed_files > 0 && contains(github.event.pull_request.changed_files, 'jay.txt')
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Continue with next tasks
-        run: echo "File has been changed, continuing with next tasks."
-  
-  abort-workflow:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && (github.event.pull_request.changed_files == 0 || !contains(github.event.pull_request.changed_files, 'jay.txt'))
-    steps:
-      - name: Abort workflow
-        run: exit 1
+      - name: Check if file has been changed
+        run: |
+          if git diff --quiet HEAD~ HEAD jay.txt; then
+            echo "File has not been changed in the pull request. Aborting workflow."
+            exit 1
+          else
+            echo "File has been changed in the pull request. Continuing with next steps."
+        # Add more steps here to continue with the workflow if the file has been changed.
+
