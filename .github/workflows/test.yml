@@ -1,22 +1,16 @@
-name: My Workflow
+name: PR Approved Workflow
+
 on:
-  pull_request_review:
-    types: [submitted]
-    branches:
-      - main
-  push:
+  pull_request_target:
+    types: [closed]
     branches:
       - main
     paths:
-      - 'dina.txt' 
+      - 'dina.txt'
+
 jobs:
-  my_job:
+  my-job:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Run my task
-      run: |
-        echo "My task runs because a commit was made to a file in the folder and the pull request was approved."
-        # Run your task here
+      - name: Run some command
+        run: echo "Hello, world!"
