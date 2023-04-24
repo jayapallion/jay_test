@@ -1,12 +1,14 @@
 name: Run action on approved pull request to main branch with one file change
 on:
-  pull_request_target:
-    types: [review_requested, review_requested_removed, labeled, unlabeled, opened, reopened, synchronize, closed]
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened, synchronize, closed]
 
 jobs:
   my-job:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request_target' && github.event.pull_request.base.ref == 'main' && github.event.pull_request.reviews[0].state == 'APPROVED' && contains(github.event.pull_request.changed_files, 'jay.txt')
+    if: github.event.pull_request.merged == true && github.event.pull_request.changed_files == 1 && contains(github.event.pull_request.changed_files, 'jay.txt')
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
