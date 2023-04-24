@@ -2,11 +2,10 @@ name: Check File Change
 
 on:
   pull_request_review:
-    types: [submitted]
+    types: [approved]
     branches:
       - main
     # Only trigger if the review is approved
-    conditions: ${{ github.event.review.state == 'approved' }}
 
 jobs:
   check-file-change:
