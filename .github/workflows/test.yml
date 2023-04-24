@@ -1,9 +1,3 @@
-To check if there is a change in a file in a pull request and continue with the next tasks in the workflow if there is a change, or abort if there is no change, you can use the if statement and the changes context.
-
-Here is an example workflow that demonstrates this:
-
-yaml
-Copy code
 name: My Workflow
 on:
   pull_request:
