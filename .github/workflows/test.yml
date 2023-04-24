@@ -17,6 +17,7 @@ jobs:
             echo "::set-output name=file_changed::false"
           else
             echo "::set-output name=file_changed::true"
+          fi
       - name: Check if pull request is merged
         id: is_merged
         run: |
@@ -24,6 +25,7 @@ jobs:
             echo "::set-output name=is_merged::true"
           else
             echo "::set-output name=is_merged::false"
+          fi
       - name: Continue actions if file has been changed and pull request is merged
         if: steps.file_changed.outputs.file_changed == 'true' && steps.is_merged.outputs.is_merged == 'true'
         run: |
