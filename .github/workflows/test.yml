@@ -25,7 +25,7 @@ jobs:
 #         env:
 #           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          if git diff --quiet "$(git merge-base HEAD^ HEAD)" HEAD jay.txt; then
+          if git diff --quiet "$(git merge-base HEAD^ HEAD)" HEAD *.txt; then
             echo "File has not been changed in the pull request."
             exit 1
           else
