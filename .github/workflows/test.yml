@@ -22,8 +22,8 @@ jobs:
           git config --global user.name "GitHub Actions"
           git checkout -b temp_branch
       - name: Check if file has been changed
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
           if git diff --quiet "$(git merge-base HEAD^ HEAD)" HEAD jay.txt; then
             echo "File has not been changed in the pull request."
