@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'Linux' }
+    agent { dockerfile }
     // The following line prevents Jenkins from cloning the whole repo. Skip if it you need the repo
     stages {
         stage ("Install requirements") {
