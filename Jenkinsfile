@@ -1,5 +1,5 @@
 pipeline {
-    agent { dockerfile { dir 'ci' } }
+    agent { dockerfile { filename 'ci/Dockerfile' } }
     // The following line prevents Jenkins from cloning the whole repo. Skip if it you need the repo
     stages {
         stage ("Install requirements") {
